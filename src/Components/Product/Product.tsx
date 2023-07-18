@@ -38,15 +38,27 @@ const Product = (props: IProps) => {
                                         </div>
                                     </div>
                                     <div className={styles.promote}>
-                                        <a>
-                                            <ul>
-                                                <li
-                                                ><p
+                                        <Link to={`/products/${product._id}`}>
+                                            <a>
+                                                <ul>
+                                                    <li><p
+                                                        className={styles.note}><span>KM</span>
+                                                        Ưu đãi đến 300.000đ khi mở Ví hoặc thanh toán qua VNPAY</p>
+                                                    </li>
 
-                                                    className={styles.note}><span>KM</span>
-                                                        aaaaaaaaa</p></li>
-                                            </ul>
-                                        </a>
+                                                    <li><p
+                                                        className={styles.note}><span>KM</span>
+                                                        Mở thẻ tín dụng VIB - Ưu đãi 250.000đ/thẻ thành công</p>
+                                                    </li>
+
+                                                    <li><p
+                                                        className={styles.note}><span>KM</span>
+                                                        Giảm thêm tới 800.000đ khi mở thẻ tín dụng TPBank EVO - Duyệt nhanh chỉ 15 phút, Liên hệ cửa hàng hoặc 1900.2091 để được hướng dẫn.</p>
+                                                    </li>
+                                                </ul>
+                                            </a>
+                                        </Link>
+
                                     </div>
                                 </div>
                             )
