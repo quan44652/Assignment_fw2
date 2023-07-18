@@ -1,16 +1,23 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import { IProduct } from '../../interfaces/product'
 import styles from "./Detail.module.scss"
-const Detail = () => {
+type IProps = {
+    products: IProduct[]
+}
+const Detail = (props: IProps) => {
+    const { id } = useParams();
+    const currentProduct = props.products.find(item => item._id == String(id))
     return (
         <body>
             <div className={styles.name_detailProduct}>
-                <h1>Điện thoại di động iPhone 11 (64GB) - Chính hãng VN/AĐiện thoại di động iPhone 14 Pro Max (256GB) - Chính hãng VN/A</h1>
+                <h1>{currentProduct?.name}</h1>
             </div>
 
             <section className={styles.detailProduct}>
                 <div className={styles.detailProduct__left}>
                     <div className={styles.big_img}>
-                        <img src="product.image" />
+                        <img src={currentProduct?.image} />
                     </div>
                     <div className={styles.images}>
                         <div className={styles.small_img}>
@@ -29,8 +36,8 @@ const Detail = () => {
                 </div>
                 <div className={styles.detailProduct__right}>
                     <div className={styles.productDetail__price}>
-                        <strong>25,000,000</strong>
-                        <i className={styles.old_price}>12,000,000 ₫</i>
+                        <strong>{currentProduct?.priceNew} </strong>
+                        <i className={styles.old_price}>{currentProduct?.priceOld} ₫</i>
                         <i>| Giá đã bao gồm 10% VAT</i>
                     </div>
                     <div className={styles.productDetail__freeship}>
@@ -61,8 +68,11 @@ const Detail = () => {
                                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                             </svg>
                             <span>Ưu đãi đến 300.000đ khi mở Ví hoặc thanh toán qua VNPAY
-                                Mở thẻ tín dụng VIB - Ưu đãi 250.000đ/thẻ thành công
-                                Giảm thêm tới 800.000đ khi mở thẻ tín dụng TPBank EVO - Duyệt nhanh chỉ 15 phút, Liên hệ cửa hàng hoặc 1900.2091 để được hướng dẫn.</span><br />
+                                Mở thẻ tín dụng VIB</span><br />
+                            <svg xmlns="http://www.w3.org/2000/svg" style={{ color: '#009981' }} width={16} height={16} fill="currentColor" className={`${styles.bi} ${styles.bi_check_lg}`} viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                            </svg>
+                            <span>Duyệt nhanh chỉ 15 phút, Liên hệ cửa hàng hoặc 1900.2091 để được hướng dẫn.</span><br />
                         </div>
                     </div>
                 </div>
