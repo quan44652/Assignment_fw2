@@ -48,7 +48,7 @@ const Header = ({ products }: any) => {
                   </div>
                   <div className={styles.info}>
                     <h4>{item.name}</h4>
-                    <span>{item.priceNew} ₫</span>
+                    <span>{item.priceNew.toLocaleString()} ₫</span>
                   </div>
                 </Link>
               ))}

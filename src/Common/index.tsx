@@ -13,7 +13,7 @@ export interface IPromotion {
   name: string;
 }
 
-export interface Icategory {
+export interface ICategory {
   _id: string;
   name: string;
 }
