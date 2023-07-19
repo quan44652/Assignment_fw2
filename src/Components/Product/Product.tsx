@@ -1,3 +1,4 @@
+import Meta from 'antd/es/card/Meta';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaces/product'
@@ -30,7 +31,10 @@ const Product = (props: IProps) => {
                                             <img src={product.image} />
                                         </div>
                                         <Link to={`/products/${product._id}`} className={styles.name}>{product.name}</Link>
-                                        <p className={styles.price}>{product.priceNew} ₫ <span>{product.priceOld} ₫</span></p>
+
+                                        <p className={styles.price}>{product.priceNew.toLocaleString("vi-VN", {
+                                        })} ₫ <span>{product.priceOld.toLocaleString("vi-VN", {
+                                        })} ₫</span></p>
                                         <div className={styles.note}>
                                             <p><span>KM</span>
                                                 Giảm thêm tới 800.000đ khi mở thẻ t... <strong>

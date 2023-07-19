@@ -36,8 +36,10 @@ const Detail = (props: IProps) => {
                 </div>
                 <div className={styles.detailProduct__right}>
                     <div className={styles.productDetail__price}>
-                        <strong>{currentProduct?.priceNew} </strong>
-                        <i className={styles.old_price}>{currentProduct?.priceOld} ₫</i>
+                        <strong>{currentProduct?.priceNew.toLocaleString("vi-VN", {
+                        })}</strong>
+                        <i className={styles.old_price}>{currentProduct?.priceOld.toLocaleString("vi-VN", {
+                        })} ₫</i>
                         <i>| Giá đã bao gồm 10% VAT</i>
                     </div>
                     <div className={styles.productDetail__freeship}>
