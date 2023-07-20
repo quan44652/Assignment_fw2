@@ -16,4 +16,6 @@ export interface IPromotion {
 export interface ICategory {
   _id: string;
   name: string;
+  image: string;
+  file?: string;
 }
