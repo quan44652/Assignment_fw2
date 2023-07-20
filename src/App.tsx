@@ -22,12 +22,15 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    void fetchData({ method: "get", url: "/category" }).then((reponse) =>
-      setCategory(
-        reponse.map((item: ICategory, index: number) => {
-          return { ...item, key: index + 1 };
-        })
-      )
+    void fetchData({ method: "get", url: "/category" }).then((reponse:ICategory[]) =>
+    {
+      console.log(reponse)
+    const res =  reponse.map((item: ICategory, index: number) => {
+        return { ...item, key: index + 1 };
+      })
+      setCategory(res)
+    }
+    
     );
   }, []);
 

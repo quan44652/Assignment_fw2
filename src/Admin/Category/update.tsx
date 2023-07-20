@@ -24,16 +24,16 @@ interface IProps {
 const UpdateCategory: any = (props: IProps) => {
   console.log(props);
 
-  const [categoryCurrent, setCategoryCurrent] = useState({});
+  const [categoryCurrent, setCategoryCurrent] = useState<ICategory>();
   const [uploadFile, setUploadFile] = useState<string>("");
   const { id } = useParams();
 
   useEffect(() => {
     void fetchData({ method: "getOne", url: "/categoryId", id: id }).then(
-      (data) => {
+      (data:ICategory) => {
         console.log(data);
         setCategoryCurrent(data);
-        setUploadFile(data.image);
+        setUploadFile(data.file||'');
       }
     );
   }, []);
@@ -42,11 +42,13 @@ const UpdateCategory: any = (props: IProps) => {
       toast.error("file ảnh không hợp lệ !!!");
       return;
     }
-    props.onUpdate({
-      _id: categoryCurrent._id,
-      image: values.file.file.response.secure_url,
+    const dataUpdate:ICategory = {
+      _id: categoryCurrent?._id || '',
+      image: values.file||'',
       name: values.name,
-    });
+      file:''
+    }
+    props.onUpdate(dataUpdate);
   };
 
   const handleUpload = (info: UploadChangeParam) => {
