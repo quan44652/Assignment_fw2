@@ -1,0 +1,181 @@
+import React, { useState, createContext } from "react";
+import { Outlet, Link } from "react-router-dom";
+import {
+  DesktopOutlined,
+  PieChartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Button, Space, Popover } from "antd";
+import type { MenuProps } from "antd";
+import { Layout, Menu, theme } from "antd";
+// import PopperModal from "../Components/PoperModal";
+
+const { Header, Content, Footer, Sider } = Layout;
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+interface IMenu {
+  key: string;
+  icon: JSX.Element;
+  label: string;
+  to: string;
+}
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+// const items: MenuItem[] = [
+//   getItem("Products", "1", <PieChartOutlined />),
+//   getItem("Categoey", "2", <DesktopOutlined />),
+//   getItem("User", "3", <UserOutlined />),
+// ];
+
+const menuItems = [
+  {
+    key: "1",
+    icon: <PieChartOutlined />,
+    label: "Products",
+    to: "/admin/products",
+  },
+  {
+    key: "2",
+    icon: <DesktopOutlined />,
+    label: "Category",
+    to: "/admin/category",
+  },
+  {
+    key: "3",
+    icon: <UserOutlined />,
+    label: "User",
+    to: "/admin/user",
+  },
+];
+export const SelectKeyContext = createContext("");
+const LayoutAdmin: React.FC = () => {
+  const isUser = false;
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  const [selectedKey, setSelectedKey] = useState("1");
+  const handleMenuSelect = ({ key }: { key: string }) => {
+    setSelectedKey(key);
+  };
+
+  return (
+    <SelectKeyContext.Provider value={selectedKey}>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          theme="light"
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div
+            style={{
+              height: 0,
+              margin: 16,
+              marginTop: 80,
+              marginBottom: 100,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="https://marketplace.magento.com/media/catalog/product/4/a/4acb_rsz_admin-logo_1.png"
+              alt=""
+              width={"100%"}
+            />
+          </div>
+          <Menu
+            theme="light"
+            defaultSelectedKeys={["1"]}
+            mode="inline"
+            selectedKeys={[selectedKey]}
+            onSelect={handleMenuSelect}
+          >
+            {menuItems.map((item) => (
+              <Menu.Item key={item.key} icon={item.icon}>
+                <Link className="text-decoration-none" to={item.to}>
+                  {item.label}
+                </Link>
+              </Menu.Item>
+            ))}
+          </Menu>
+        </Sider>
+        <Layout className="site-layout">
+          <Header
+            style={{
+              minHeight: 80,
+              background: "#fff",
+              boxShadow: "1px 1px 1px 1px #ddd",
+              margin: "0 24px",
+              borderRadius: 8,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              {selectedKey === "1" && (
+                <h1 style={{ fontSize: 32, margin: 0 }}>Management Products</h1>
+              )}
+              {selectedKey === "2" && (
+                <h1 style={{ fontSize: 32, margin: 0 }}>Management Category</h1>
+              )}
+              {selectedKey === "3" && (
+                <h1 style={{ fontSize: 32, margin: 0 }}>Management User</h1>
+              )}
+            </div>
+            <div>
+              <Space wrap>
+                <Button className="fs-5" type="link" danger>
+                  <Link className="text-decoration-none" to={"/"}>
+                    Login
+                  </Link>
+                </Button>
+                <Button className="fs-5" type="link" danger>
+                  <Link className="text-decoration-none" to={"/"}>
+                    Regitster
+                  </Link>
+                </Button>
+              </Space>
+            </div>
+          </Header>
+          <Content style={{ margin: 24 }}>
+            {/* <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb> */}
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                borderRadius: 18,
+                background: colorBgContainer,
+              }}
+            >
+              {" "}
+              <Outlet />
+            </div>
+          </Content>
+          {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer> */}
+        </Layout>
+      </Layout>
+    </SelectKeyContext.Provider>
+  );
+};
+
+export default LayoutAdmin;
