@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { ICategory, IProduct } from "./Common";
 import fetchData from "./Api";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -29,16 +30,22 @@ function App() {
         })
       )
     );
+
+    void fetchData({ method: "get", url: "/products" }).then((reponse) =>
+      setProducts(
+        reponse.map((item: IProduct, index: number) => {
+          return { ...item, key: index + 1 };
+        })
+      )
+    );
   }, []);
 
   const handleAddCategory = (newCategory: ICategory) => {
-    void fetchData({
+    fetchData({
       method: "post",
       url: "/category",
       data: newCategory,
     }).then((data) => {
-      console.log(data);
-
       if (data.error) {
         toast.error(data.error);
         return;
@@ -50,9 +57,42 @@ function App() {
     });
   };
 
+  const handleAddProduct = (newProduct: IProduct) => {
+    axios
+      .post("http://localhost:8080/api/products", newProduct)
+      .then((data) => {
+        // if (data.error) {
+        //   toast.error(data.error);
+        //   return;
+        // }
+
+        setProducts([...products, data.product]);
+        toast.success("Thêm thành công");
+        navigate("/admin/products");
+      });
+    // fetchData({
+    //   method: "post",
+    //   url: "/products",
+    //   data: newProduct,
+    // }).then((data) => {
+    //   if (data.error) {
+    //     toast.error(data.error);
+    //     return;
+    //   }
+
+    //   setProducts([...products, data.product]);
+    //   toast.success("Thêm thành công");
+    //   navigate("/admin/products");
+    // });
+
+    console.log(newProduct);
+  };
+
   const handleUpdateCategory = (newCategory: ICategory) => {
+    console.log(newCategory);
+
     void fetchData({
-      method: "post",
+      method: "put",
       url: "/category",
       data: newCategory,
       id: newCategory._id,
@@ -64,24 +104,38 @@ function App() {
         return;
       }
 
-      setCategory([...category, data.category]);
+      setCategory(
+        category.filter((item: ICategory) =>
+          item._id != newCategory._id ? newCategory : item
+        )
+      );
       toast.success("Sửa thành công");
       navigate("/admin/category");
     });
   };
 
   const handleRemoveCategory = (id: string) => {
-    void fetchData({ method: "delete", url: "/category", id: id }).then(
-      (data) => {
-        if (data.error) {
-          toast.error(data.error);
-          return;
-        }
-        setCategory(category.filter((item: ICategory) => item._id != id));
-        toast.success("Xóa thành công");
-        navigate("/admin/category");
+    fetchData({ method: "delete", url: "/category", id: id }).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+        return;
       }
-    );
+      setCategory(category.filter((item: ICategory) => item._id != id));
+      toast.success("Xóa thành công");
+      navigate("/admin/category");
+    });
+  };
+
+  const handleRemoveProduct = (id: string) => {
+    fetchData({ method: "delete", url: "/products", id: id }).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+      setProducts(products.filter((item: IProduct) => item._id != id));
+      toast.success("Xóa thành công");
+      navigate("/admin/products");
+    });
   };
 
   return (
@@ -91,8 +145,22 @@ function App() {
         <Route path="/category/:id" element={<ProductByCategory />} />
         <Route path="admin" element={<LayoutAdmin />}>
           <Route path="products">
-            <Route index element={<AdminProducts />}></Route>
-            <Route path="add" element={<AddProduct />}></Route>
+            <Route
+              index
+              element={
+                <AdminProducts
+                  products={products}
+                  category={category}
+                  onRemove={handleRemoveProduct}
+                />
+              }
+            ></Route>
+            <Route
+              path="add"
+              element={
+                <AddProduct category={category} onAdd={handleAddProduct} />
+              }
+            ></Route>
             <Route path="update/:id" element={<UpdateProduct />}></Route>
           </Route>
           <Route path="category">

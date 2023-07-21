@@ -11,10 +11,10 @@ import { ICategory, IProduct } from "../../Common";
 
 interface IProps {
   products?: IProduct[];
-  categories?: ICategory[];
+  category?: ICategory[];
   onRemove?: (id: string) => void;
 }
-const AdminProducts = (props: IProps): any => {
+const AdminProducts = ({ products, category, onRemove }: IProps): any => {
   const columns: ColumnsType<IProduct> = [
     {
       title: "Id",
@@ -34,21 +34,13 @@ const AdminProducts = (props: IProps): any => {
     },
     {
       title: "Price",
-      dataIndex: "price",
-      key: "price",
+      dataIndex: "priceNew",
+      key: "priceNew",
     },
     {
       title: "Category",
       dataIndex: "category_id",
       key: "category_id",
-      render: (category_id) =>
-        props.categories.find((item: ICategory) => item._id == category_id)
-          ?.name,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
     },
 
     {
@@ -60,7 +52,7 @@ const AdminProducts = (props: IProps): any => {
             placement="top"
             title=""
             description="Bạn có muốn xóa sản phẩm này ???"
-            onConfirm={() => props.onRemove(record._id)}
+            onConfirm={() => onRemove(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -80,12 +72,14 @@ const AdminProducts = (props: IProps): any => {
       ),
     },
   ];
-  const [listProducts, setListProducts] = useState<IProducts[]>([]);
+  const [listProducts, setListProducts] = useState<IProduct[]>([]);
   useEffect(() => {
-    setListProducts(props.products);
-  }, [props.products]);
+    setListProducts(products);
+  }, [products]);
+  console.log(category);
+
   const handleSearch = (value: string) => {
-    const newProducts = props.products.filter((item) => {
+    const newProducts = products.filter((item) => {
       if (item.name.includes(value)) {
         return item;
       }

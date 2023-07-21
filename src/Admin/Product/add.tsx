@@ -14,38 +14,32 @@ const FOLDER_NAME = "portfolio";
 
 interface IProps {
   onAdd?: (product: IProduct) => void;
-  categories?: ICategory[];
+  category?: ICategory[];
 }
 
-const AddProduct = (props: IProps) => {
+const AddProduct = ({ category, onAdd }: IProps) => {
   const [uploadFile, setUploadFile] = useState<string>("");
-  const onFinish = (values: any) => {
-    // props.onAdd({
-    //   name: values.name,
-    //   price: values.price,
-    //   image: uploadFile,
-    //   description: values.description,
-    //   category_id: values.category_id,
-    // });
-    console.log({
+  const onFinish = (values: IProduct) => {
+    onAdd({
       name: values.name,
-      price: values.price,
+      priceNew: values.priceNew,
       image: uploadFile,
-      description: values.description,
-      categoryd: values.category_id,
+      categoryId: values.categoryId,
     });
   };
 
   const handleUpload = (info: UploadChangeParam) => {
     if (info.file.status === "done") {
       setUploadFile(info.file.response.secure_url);
-      message.success(`${info.file.name} file uploaded successfully`);
+      void message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === "error") {
-      message.error(
+      void message.error(
         `${info.file.name} [file upload failed](poe://www.poe.com/_api/key_phrase?phrase=file%20upload%20failed&prompt=Tell%20me%20more%20about%20file%20upload%20failed.).`
       );
     }
   };
+
+  console.log(category);
 
   return (
     <div>
@@ -70,7 +64,7 @@ const AddProduct = (props: IProps) => {
 
         <Form.Item
           label="Price"
-          name="price"
+          name="priceNew"
           rules={[
             { required: true, message: "Please input price!" },
             {
@@ -96,20 +90,12 @@ const AddProduct = (props: IProps) => {
         </Form.Item>
 
         <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Please input  description!" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
           label="Lựa chọn"
-          name="category_id"
+          name="categoryId"
           rules={[{ required: true, message: "Please select category!" }]}
         >
           <Select placeholder="Chọn Danh Mục">
-            {props.categories.map((item) => (
+            {category.map((item) => (
               <Select.Option key={item._id} value={item._id}>
                 {item.name}
               </Select.Option>

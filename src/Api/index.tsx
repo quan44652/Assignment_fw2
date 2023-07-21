@@ -15,7 +15,6 @@ const fetchData = async (props: IProps) => {
       response = await axios.get(`${API_BASE_URL}${props.url}`);
       break;
     case "getOne":
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       response = await axios.get(`${API_BASE_URL}${props.url}/${props.id}`);
       break;
     case "post":
@@ -23,20 +22,17 @@ const fetchData = async (props: IProps) => {
       break;
     case "put":
       response = await axios.put(
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `${API_BASE_URL}${props.url}/${props.id}`,
         props.data
       );
       break;
     case "delete":
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       response = await axios.delete(`${API_BASE_URL}${props.url}/${props.id}`);
       break;
     default:
       throw new Error(`Unsupported HTTP method: ${props.method}`);
       break;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return response.data;
 };
 export default fetchData;

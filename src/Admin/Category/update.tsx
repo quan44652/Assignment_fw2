@@ -39,14 +39,12 @@ const UpdateCategory: any = (props: IProps) => {
   }, []);
   const onFinish = (values: ICategory) => {
     if (values.file == undefined) {
-      toast.error("file ảnh không hợp lệ !!!");
-      return;
+      props.onUpdate({
+        _id: categoryCurrent._id,
+        image: categoryCurrent.image,
+        name: values.name,
+      });
     }
-    props.onUpdate({
-      _id: categoryCurrent._id,
-      image: values.file.file.response.secure_url,
-      name: values.name,
-    });
   };
 
   const handleUpload = (info: UploadChangeParam) => {
