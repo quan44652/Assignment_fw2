@@ -1,0 +1,22 @@
+.top_navigate {
+    width: 100%;
+
+    background-color: #00483d;
+}
+
+.top_navigate ul {
+    max-width: 1200px;
+    min-height: 30px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    list-style: none;
+}
+
+.top_navigate a {
+    text-decoration: none;
+    font-size: 13px;
+    color: #fff;
+    padding-left: 12px;
+}

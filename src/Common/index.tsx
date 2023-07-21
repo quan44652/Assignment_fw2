@@ -1,11 +1,13 @@
 export interface IProduct {
-  _id: string;
-  sticker: string;
+  file: any;
+  _id?: string;
+  sticker?: string;
   name: string;
   priceNew: number;
-  priceOld: number;
+  priceOld?: number;
   image: string;
-  promotionId: IPromotion[];
+  categoryId: string;
+  promotionId?: IPromotion[];
 }
 
 export interface IPromotion {
@@ -13,7 +15,9 @@ export interface IPromotion {
   name: string;
 }
 
-export interface Icategory {
+export interface ICategory {
   _id: string;
   name: string;
+  image: string;
+  file?: string;
 }

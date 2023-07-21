@@ -1,0 +1,101 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import { Space, Table, Button, Popconfirm, Input } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { Link } from "react-router-dom";
+
+// import { faSearch } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ICategory } from "../../Common";
+
+interface IProps {
+  categories?: ICategory[];
+  onRemove?: (id: string) => void;
+}
+
+const AdminCategory = (props: IProps) => {
+  const columns: ColumnsType<ICategory> = [
+    {
+      title: "Id",
+      dataIndex: "key",
+      key: "key",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (item: string) => (
+        <img src={item} width={70} height={70} alt="" />
+      ),
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record) => (
+        <Space size="middle">
+          <Popconfirm
+            placement="top"
+            title=""
+            description="Bạn có muốn xóa sản phẩm này ???"
+            onConfirm={() => props.onRemove(record._id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="primary" danger>
+              Remove
+            </Button>
+          </Popconfirm>
+          <Button type="primary">
+            <Link
+              className="text-decoration-none"
+              to={"/admin/category/update/" + record._id}
+            >
+              Update
+            </Link>
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  const [categoryList, setCategoryList] = useState<ICategory[]>([]);
+  useEffect(() => {
+    setCategoryList(props.categories);
+  }, [props.categories]);
+  const handleSearch = (value: string) => {
+    setCategoryList(
+      props.categories.filter((item) => {
+        if (item.name.includes(value)) {
+          return item;
+        }
+      })
+    );
+  };
+
+  return (
+    <>
+      <Input.Search
+        placeholder="Search"
+        // enterButton={<FontAwesomeIcon icon={faSearch} />}
+        size="large"
+        onSearch={(value) => handleSearch(value)}
+      />
+      <button className="btn btn-primary mt-5">
+        <Link
+          className="text-dicoration-none text-light"
+          to={"/admin/category/add"}
+        >
+          New category
+        </Link>
+      </button>
+      <Table className="my-5" columns={columns} dataSource={categoryList} />
+    </>
+  );
+};
+
+export default AdminCategory;
