@@ -42,7 +42,11 @@ const Header = ({ products }: any) => {
           {productSearch.length > 0 && (
             <div className={styles.search_result}>
               {productSearch.map((item: IProduct, index: number) => (
-                <Link key={index} to="/" className={styles.search_item}>
+                <Link
+                  key={index}
+                  to={"/products/" + item._id}
+                  className={styles.search_item}
+                >
                   <div className={styles.avata}>
                     <img src={item.image} />
                   </div>

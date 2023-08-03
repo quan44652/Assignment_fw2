@@ -15,6 +15,7 @@ import { ICategory, IProduct } from "./Common";
 import fetchData from "./Api";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Detail from "./Pages/Detail/Detail";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -142,6 +143,7 @@ function App() {
     <div>
       <Routes>
         <Route path="" element={<Home />} />
+        <Route path="products/:id" element={<Detail products={products} />} />
         <Route path="/category/:id" element={<ProductByCategory />} />
         <Route path="admin" element={<LayoutAdmin />}>
           <Route path="products">
