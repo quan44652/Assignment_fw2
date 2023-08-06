@@ -15,6 +15,8 @@
     overflow: hidden;
 }
 
+
+
 .form_search input {
     width: 100%;
     height: 100%;
@@ -33,12 +35,13 @@
     transform: translateY(-50%);
     border: none;
     outline: none;
-    padding: 8px 12px;
-    font-size: 16px;
+    padding: 6px 10px;
+    font-size: 18px;
     background-color: #00483d;
     box-shadow: 0 4px 6px #ccc;
     border-radius: 15px;
     color: #fff;
+    cursor: pointer;
 }
 
 .order_tool {
@@ -163,15 +166,15 @@
     font-weight: bold;
 }
 
-.search-name {
+.search_name {
     color: #009981;
     font-size: 15px;
     margin: 13px 0;
-    padding-left: 24px;
+    // padding-left: 24px;
 
 }
 
-.search-name strong {
+.search_name strong {
     font-style: italic;
 }
 
