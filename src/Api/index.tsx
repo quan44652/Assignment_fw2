@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import axios from "axios";
 import { ICategory, IProduct } from "../Common";
 interface IProps {

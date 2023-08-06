@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useState, createContext } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, Navigate } from "react-router-dom";
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -62,7 +64,9 @@ const menuItems = [
   },
 ];
 export const SelectKeyContext = createContext("");
-const LayoutAdmin: React.FC = () => {
+const LayoutAdmin = () => {
+  const token = JSON.parse(localStorage.getItem("token")!);
+  const user = JSON.parse(localStorage.getItem("user")!);
   const isUser = false;
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -168,7 +172,7 @@ const LayoutAdmin: React.FC = () => {
               }}
             >
               {" "}
-              <Outlet />
+              {token && user.role === "admin" ? <Outlet /> : <Navigate to="/signin" replace />}
             </div>
           </Content>
           {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer> */}

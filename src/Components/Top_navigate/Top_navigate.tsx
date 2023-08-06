@@ -1,34 +1,58 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Top_navigate.module.scss";
+
 const Top_navigate = () => {
+  const user = JSON.parse(localStorage.getItem("user")!);
+  const handleLogout = () => {
+    localStorage.clear();
+    // Redirect to the home page or any other desired page after logout
+    window.location.href = '/';
+  };
   return (
     <div className={styles.top_navigate}>
       <ul>
         <li>
-          <Link to="">Bản mobile</Link>
+          <a href="">Bản mobile</a>
         </li>
         <li>
-          <Link to="">Giới thiệu</Link>
+          <a href="">Giới thiệu</a>
         </li>
         <li>
-          <Link to="">Sản phẩm đã xem</Link>
+          <a href="">Sản phẩm đã xem</a>
         </li>
         <li>
-          <Link to="">Trung tâm bảo hành</Link>
+          <a href="">Trung tâm bảo hành</a>
         </li>
         <li>
-          <Link to="">Hệ thống 126 siêu thị</Link>
+          <a href="">Hệ thống 126 siêu thị</a>
         </li>
         <li>
-          <Link to="">Tuyển dụng</Link>
+          <a href="">Tuyển dụng</a>
         </li>
         <li>
-          <Link to="">Tra cứu đơn hàng</Link>
+          <a href="">Tra cứu đơn hàng</a>
         </li>
-        <li>
-          <Link to={"signin"}>Đăng nhập</Link>
-        </li>
+        {user ? (
+          <li style={{ padding: "0 20px", color: "white" }}>{user.name} <Link
+          style={{ textDecoration: "none", fontSize: "15px", color: "red" }}
+          to={"/"}
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/";
+          }}
+        >
+          Đăng Xuất
+        </Link></li>
+        ) : (
+          <li>
+            <a>
+              <Link to={"signin"}>Đăng nhập</Link>
+            </a>
+          </li>
+        )}
       </ul>
     </div>
   );

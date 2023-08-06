@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Header from "./Components/Header/Header";
-import Slider from "./Components/Slider/Slider";
 import Home from "./Pages/Home/Home";
 import ProductByCategory from "./Pages/ProductByCategory/ProductByCategory";
 import AdminProducts from "./Admin/Product";
@@ -16,10 +20,28 @@ import fetchData from "./Api";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Detail from "./Pages/Detail/Detail";
-
+import SignIn from "./Components/Signin/signin.component";
+import { Iauth } from "./interfaces/auth";
+import { addAccount } from "./apis/auth";
+import SignUpForm from "./Components/Signup/signup.component";
+import { getAllProducts } from "./apis/product";
+import { getAllCategories } from "./apis/category";
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [dataAuth, setData] = useState<Iauth[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [category, setCategory] = useState<ICategory[]>([]);
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getAllProducts().then(({ data }) => setProducts(data))
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getAllCategories().then(({ data }) => setCategory(data))
+  }, [])
+  const onHandleAddAccount = (data: Iauth) => {
+     // eslint-disable-next-line @typescript-eslint/no-floating-promises
+     addAccount(data).then(() => setData([...dataAuth, data]));
+  };
+
 
   const navigate = useNavigate();
 
@@ -42,6 +64,7 @@ function App() {
   }, []);
 
   const handleAddCategory = (newCategory: ICategory) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData({
       method: "post",
       url: "/category",
@@ -59,6 +82,7 @@ function App() {
   };
 
   const handleAddProduct = (newProduct: IProduct) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     axios
       .post("http://localhost:8080/api/products", newProduct)
       .then((data) => {
@@ -116,7 +140,7 @@ function App() {
   };
 
   const handleRemoveCategory = (id: string) => {
-    fetchData({ method: "delete", url: "/category", id: id }).then((data) => {
+    void fetchData({ method: "delete", url: "/category", id: id }).then((data) => {
       if (data.error) {
         toast.error(data.error);
         return;
@@ -128,8 +152,10 @@ function App() {
   };
 
   const handleRemoveProduct = (id: string) => {
-    fetchData({ method: "delete", url: "/products", id: id }).then((data) => {
+    void fetchData({ method: "delete", url: "/products", id: id }).then((data) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (data.error) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         toast.error(data.error);
         return;
       }
@@ -185,7 +211,10 @@ function App() {
             ></Route>
           </Route>
         </Route>
+          <Route path='/signin'  element={<SignIn />}/>
+          <Route path='/signup'  element={<SignUpForm onAdd={onHandleAddAccount}/>}/>
       </Routes>
+        
     </div>
   );
 }

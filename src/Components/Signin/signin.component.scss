@@ -1,0 +1,127 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background-color: #f5f5f5;
+  
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      .signin-form {
+        display: flex;
+        width: 1200px;
+        border-radius: 10px;
+        overflow: hidden;
+  
+        .signin-bg {
+          background-color: #fbe9e7;
+          padding: 90px 40px;
+        }
+  
+        .box-form {
+          padding: 90px 120px;
+          flex: 1;
+          background-color: #fff;
+  
+          h2 {
+            font-size: 32px;
+            color: #333;
+          }
+  
+          .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 18px;
+  
+            label {
+              font-size: 13px;
+              color: #333;
+              margin-bottom: 5px;
+              font-weight: 600;
+            }
+  
+            input {
+              background-color: #e5e5e5;
+              width: 100%;
+              padding: 6px 10px;
+              border: none;
+              outline: none;
+              border-radius: 2px;
+              font-size: 12px;
+              font-weight: 600;
+            }
+          }
+  
+          form {
+            margin-top: 50px;
+          }
+  
+          .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 -12px;
+          }
+  
+          .btn {
+            border: none;
+            outline: none;
+            width: 50%;
+            margin: 12px;
+            padding: 12px;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 3px;
+            cursor: pointer;
+            height: 10% !important;
+  
+            &.btn-signin {
+              background: linear-gradient(rgb(0, 145, 122) 0%, rgb(0, 72, 61) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+              color: #fff;
+  
+              &:hover {
+                background: linear-gradient(rgb(0, 72, 61) 0%, rgb(0, 145, 122) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+              }
+            }
+  
+            &.btn-signup {
+              border: 2px solid rgb(0, 72, 61);
+              text-decoration: none;
+              text-align: center;
+              color: #222;
+  
+              &:hover {
+                color: #00917a;
+              }
+            }
+          }
+  
+          .forgotpass {
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+  
+            a {
+              text-decoration: none;
+              color: #222;
+              font-size: 13px;
+              font-weight: 600;
+  
+              &:hover {
+                color: #00917a;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
